@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require 'rack'
+require 'tilt'
+require 'hotchkiss'
+
+class Generator < Thor
+
+  TEMPLATE_DIR = Gem::Specification.find_by_name("hotchkiss").gem_dir +
+                 "/lib/hotchkiss/templates/"
+
+  desc "new NAME",
+       "Create new hotchkiss application directories with skel files."
+  def new(name)
+    dir = Dir.pwd + '/' + name
+    FileUtils.mkdir(dir)
+    FileUtils.cp_r(TEMPLATE_DIR + "new/.", dir)
+  end
+
+  desc "server",
+       "Run development server"
+  def server(port = nil)
+    port ||= 3000
+    host ||= "127.0.0.1"
+    [:INT, :TERM].each { |sig| trap(sig) { exit } }
+    options = {}
+    options[:Host] = host
+    options[:Port] = port
+    options[:config] = "config.ru"
+    options[:server] = :webrick
+    HK::Server.start!(options)
+  end
+
+end # Generator
+
+Generator.start(ARGV)
