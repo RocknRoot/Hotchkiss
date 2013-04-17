@@ -1,0 +1,3 @@
+:url: 'sqlite://db/demo.sqlite'
+:options:
+  :encoding: utf-8

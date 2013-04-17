@@ -1,0 +1,9 @@
+Sequel.migration do
+  up do
+    # Up code here
+  end
+
+  down do
+    # Down code here
+  end
+end

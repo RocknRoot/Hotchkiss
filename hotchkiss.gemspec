@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.add_dependency "thor"
   s.add_dependency "rack"
   s.add_dependency "tilt"
+  s.add_dependency "sequel"
   s.extra_rdoc_files = ["LICENSE.txt"]
   s.homepage    = 'https://github.com/RocknRoot/Hotchkiss'
   s.licenses    = ["BSD"]
