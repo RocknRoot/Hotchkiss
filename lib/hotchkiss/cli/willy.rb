@@ -6,7 +6,7 @@ module Cli
     def new(name)
       dir = Dir.pwd + '/' + name
       FileUtils.mkdir(dir)
-      FileUtils.cp_r(Cli::TEMPLATE_DIR + "new/.", dir)
+      FileUtils.cp_r(TEMPLATE_DIR + "new/", dir)
     end
 
     desc "server [host - default 127.0.0.1] [port - default 3000]", "Run development server."
