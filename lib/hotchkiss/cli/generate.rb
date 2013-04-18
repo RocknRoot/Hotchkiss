@@ -16,7 +16,7 @@ module Cli
     def migration(name)
       timestamp = Time.now.to_i
       final_name = "#{timestamp}_#{name}"
-      FileUtils.cp_r(Cli::TEMPLATE_DIR + "generate/migration/migration", Dir.pwd + "/code/app/models/migrations/#{final_name}.rb")
+      FileUtils.cp_r(Cli::TEMPLATE_DIR + "generate/migration/migration", Dir.pwd + "/db/migrations/#{final_name}.rb")
     end
 
   end # Generate
