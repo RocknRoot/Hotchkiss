@@ -1,3 +1,4 @@
+require 'pp'
 module HK
 
   class Controller
@@ -5,6 +6,7 @@ module HK
     def call(env)
       @request = Rack::Request.new(env)
       @response = Rack::Response.new()
+      @request.update_param :url, env['hk.params']
       resp = self.send(env['hk.action'])
       @response.write(resp)
       @response.finish

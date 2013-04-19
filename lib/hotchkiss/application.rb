@@ -34,7 +34,8 @@ module HK
     def self.burnbabyburn!
       lambda do |env|
         begin
-          route = @@router.match?(env)
+          route, params = @@router.match?(env)
+          env['hk.params'] = (params.nil? ? "" : params)
           if !route.nil? && route.has_key?(:special)
             env['hk.controller'] = route[:controller]
           elsif !route.nil?
