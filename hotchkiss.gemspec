@@ -1,6 +1,9 @@
+$:.push File.expand_path("../lib", __FILE__)
+require 'hotchkiss/version'
+
 Gem::Specification.new do |s|
   s.name        = "hotchkiss"
-  s.version     = "0.0.2"
+  s.version     = HK::VERSION
   s.date        = Time.now.strftime("%Y-%m-%d")
   s.summary     = "Ruby web framework"
   s.description = "Ruby web framework"
