@@ -41,7 +41,7 @@ module HK
       @routes.each do |route|
         backup = String.new(route[:path])
         computed_route = route[:path].gsub!(/((:\w+)|\*)/, /(\w+)/.to_s)
-        computed_route = "^#{route[:path]}$" if computed_route.nil?
+        computed_route = "^#{route[:path]}$"
         computed_route = Regexp.new(computed_route)
         route[:regexp] = computed_route
         route[:path] = backup
