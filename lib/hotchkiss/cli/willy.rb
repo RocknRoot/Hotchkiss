@@ -5,8 +5,12 @@ module Cli
     desc "new NAME", "Create new hotchkiss application directories with skel files."
     def new(name)
       dir = Dir.pwd + '/' + name
-      FileUtils.mkdir(dir)
-      FileUtils.cp_r(TEMPLATE_DIR + "new/", dir)
+      unless File.exists?(dir)
+        FileUtils.cp_r(TEMPLATE_DIR + "new", dir)
+        FileUtils.mkpath(dir + '/db/migrations')
+      else
+        abort("#{dir} exists. Remove it or change your app name.")
+      end
     end
 
     desc "server [host - default 127.0.0.1] [port - default 3000]", "Run development server."
