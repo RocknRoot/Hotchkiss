@@ -32,7 +32,12 @@ module Cli
     no_tasks do
       def init
         Sequel.extension :migration
-        @db = Sequel.connect(DB_INFOS[:url], DB_INFOS[:options])
+        begin
+          @db = Sequel.connect(DB_INFOS[:url], DB_INFOS[:options])
+        rescue NameError
+          puts "Did you configure your config/db.yml file ?"
+          abort "Are you in your app directory ?"
+        end
       end
     end
 
