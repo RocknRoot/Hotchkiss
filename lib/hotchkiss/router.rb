@@ -1,5 +1,3 @@
-require 'pp'
-
 module HK
 
   class Router
@@ -8,7 +6,6 @@ module HK
       @routes_by_method = {}
       @routes = []
       yield(self)
-      finish
       compute
     end
 
@@ -67,11 +64,6 @@ module HK
       else
         nil
       end
-    end
-
-    def finish
-      @routes << { :method => :get, :path => "/favicon.ico", :action => "favicon",
-                   :controller => :FastResponder, :special => true }
     end
 
   end # Router

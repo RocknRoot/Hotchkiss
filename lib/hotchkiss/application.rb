@@ -6,7 +6,6 @@ module HK
 
     @@router = nil
     @@root  = nil
-    @@favicon = nil
 
     attr_accessor :router, :root
 
@@ -16,19 +15,10 @@ module HK
 
     def self.root=(root)
       @@root = root if @@root.nil?
-      begin
-        @@favicon = File.read(File.join("#{root}/public/favicon.ico"))
-      rescue
-        @@favicon = nil
-      end
     end
 
     def self.root
       @@root
-    end
-
-    def self.favicon
-      @@favicon
     end
 
     def self.burnbabyburn!
@@ -45,9 +35,6 @@ module HK
           end
           env['hk.action'] = route[:action]
           resp = Object.const_get(env['hk.controller']).new.call(env)
-          response = Rack::Response.new()
-          response.write(resp)
-          response.finish
         rescue Exception => e
           env['hk.action'] = "on_exception"
           env['hk.exception'] = e
@@ -57,6 +44,7 @@ module HK
             env['hk.controller'] = :FastResponder
           end
           resp = Object.const_get(env['hk.controller']).new.call(env)
+        ensure
           response = Rack::Response.new()
           response.write(resp)
           response.finish
