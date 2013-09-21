@@ -4,18 +4,27 @@ module HK
   class Controller
 
     def call(env)
+      @env = env
       @request = Rack::Request.new(env)
       @response = Rack::Response.new()
       @request.update_param :url, env['hk.params']
       resp = self.send(env['hk.action'])
-      @response.write(resp)
-      @response.finish
     end
 
   private
 
     def params
       @request.params
+    end
+
+    def reroute(controller, action, args = {})
+      name = controller.to_s.capitalize + 'Controller'
+      c = Object.const_get(name).new
+      env = @env
+      env['hk.controller'] = name
+      env['hk.action'] = action
+      env['hk.params'].merge args
+      c.call(env)
     end
 
     def redirect_to(url)

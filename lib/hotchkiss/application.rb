@@ -35,7 +35,7 @@ module HK
       lambda do |env|
         begin
           route, params = @@router.match?(env)
-          env['hk.params'] = (params.nil? ? "" : params)
+          env['hk.params'] = (params.nil? ? {} : params)
           if !route.nil? && route.has_key?(:special)
             env['hk.controller'] = route[:controller]
           elsif !route.nil?
@@ -44,7 +44,10 @@ module HK
             raise Exception, "Unknown route for path: #{env['REQUEST_PATH']}"
           end
           env['hk.action'] = route[:action]
-          Object.const_get(env['hk.controller']).new.call(env)
+          resp = Object.const_get(env['hk.controller']).new.call(env)
+          response = Rack::Response.new()
+          response.write(resp)
+          response.finish
         rescue Exception => e
           env['hk.action'] = "on_exception"
           env['hk.exception'] = e
@@ -53,7 +56,10 @@ module HK
           else
             env['hk.controller'] = :FastResponder
           end
-          Object.const_get(env['hk.controller']).new.call(env)
+          resp = Object.const_get(env['hk.controller']).new.call(env)
+          response = Rack::Response.new()
+          response.write(resp)
+          response.finish
         end
       end
     end
