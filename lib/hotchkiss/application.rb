@@ -44,11 +44,10 @@ module HK
             env['hk.controller'] = :FastResponder
           end
           resp = Object.const_get(env['hk.controller']).new.call(env)
-        ensure
-          response = Rack::Response.new()
-          response.write(resp)
-          response.finish
         end
+        response = Rack::Response.new()
+        response.write(resp)
+        response.finish
       end
     end
 
