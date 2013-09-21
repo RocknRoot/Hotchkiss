@@ -26,6 +26,16 @@ module Cli
       HK::Server.start!(options)
     end
 
+    desc "console", "IRB console."
+    def console
+      require 'irb'
+      db = YAML::load(File.open("#{Dir.pwd}/config/db.yml"))
+      Sequel.connect(db[:url], db[:options])
+      Dir["#{Dir.pwd}/code/app/models/*.rb"].each { |file| require file }
+      ARGV.clear
+      IRB.start
+    end
+
     desc "generate SUBCOMMAND", "Generators for model and controller files."
     subcommand "generate", Generate
 

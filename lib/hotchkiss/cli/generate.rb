@@ -20,7 +20,7 @@ module Cli
       init
       file = Dir.pwd + "/code/app/controllers/#{name}_controller.rb"
       open(file, File::CREAT|File::TRUNC|File::RDWR) do |f|
-        f << "class #{name.capitalize} < HK::Controller\nend\n"
+        f << "class #{name.capitalize}Controller < HK::Controller\nend\n"
       end
       puts "Creation: #{file}"
     end
