@@ -22,7 +22,7 @@ module HK
       env = @env
       env['hk.controller'] = name
       env['hk.action'] = action
-      env['hk.params'].merge args
+      env['hk.params'] ||= args
       c.call(env)
     end
 
