@@ -4,22 +4,45 @@ module Cli
 
     desc "model NAME", "Generate model files."
     def model(name)
-      puts name
+      init
+      file = Dir.pwd + "/code/app/models/#{name}.rb"
+      unless Dir.exists?(Cli::MODEL_DIR)
+        Dir.mkdir(Cli::MODEL_DIR)
+      end
+      open(file, File::CREAT|File::TRUNC|File::RDWR) do |f|
+        f << "class #{name.capitalize} < Sequel::Model\nend\n"
+      end
+      puts "Creation: #{file}"
     end
 
     desc "controller NAME", "Generate controller files."
     def controller(name)
-      puts name
+      init
+      file = Dir.pwd + "/code/app/controllers/#{name}_controller.rb"
+      open(file, File::CREAT|File::TRUNC|File::RDWR) do |f|
+        f << "class #{name.capitalize} < HK::Controller\nend\n"
+      end
+      puts "Creation: #{file}"
     end
 
     desc "migration NAME", "Generate migration file."
     def migration(name)
+      init
       timestamp = Time.now.to_i
       final_name = "#{timestamp}_#{name}"
-      unless File.exists?(Cli::MG_DIR)
-        abort("#{Cli::MG_DIR} directory doesn't exist, did you create your app ?\nPlease use 'hk new [app_name] to create it.")
+      file = Dir.pwd + "/db/migrations/#{final_name}.rb"
+      FileUtils.cp_r(Cli::TEMPLATE_DIR + "generate/migration/migration", file)
+      puts "Creation: #{file}"
+    end
+
+    no_tasks do
+
+      def init
+        unless File.exists?(Cli::MG_DIR)
+          abort("#{Cli::MG_DIR} directory doesn't exist, did you create your app ?\nPlease use 'hk new [app_name] to create it.")
+        end
       end
-      FileUtils.cp_r(Cli::TEMPLATE_DIR + "generate/migration/migration", Dir.pwd + "/db/migrations/#{final_name}.rb")
+
     end
 
   end # Generate

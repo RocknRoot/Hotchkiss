@@ -8,5 +8,6 @@ module Cli
                      "/lib/hotchkiss/templates/"
   DB_INFOS = YAML::load(File.open(DB_INFO_FILE)) if File.exists?(DB_INFO_FILE)
   MG_DIR = Dir.pwd + "/db/migrations/"
+  MODEL_DIR = Dir.pwd + "/code/app/models"
 
 end ## Cli
