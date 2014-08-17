@@ -4,7 +4,6 @@ require 'thor'
 require 'rack'
 require 'tilt'
 require 'sequel'
-require 'sqlite3'
 require 'hotchkiss'
 require 'hotchkiss/cli'
 
