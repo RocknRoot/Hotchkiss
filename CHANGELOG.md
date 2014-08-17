@@ -1,5 +1,17 @@
 # Changelog
 
+## BSG - 0.0.3.1 - Zarek - Hot fix version
+
+* Replace merge in controller.rb
+
+## BSG - 0.0.3 - Zarek
+
+* Update controller and model generators.
+* Fix CLI execeptions with messages.
+* Add IRB console.
+* Add rack::static for public dir stuff.
+* Add reroute.
+
 ## BSG - 0.0.2 - Baltar
 
 * Parameterized routes.
