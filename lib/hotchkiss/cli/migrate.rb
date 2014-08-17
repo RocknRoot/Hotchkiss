@@ -44,7 +44,7 @@ module Cli
         begin
           @db = Sequel.connect(DB_INFOS[:url], DB_INFOS[:options])
         rescue NameError
-          puts "Did you configure your config/db.yml file ?"
+          puts ERROR_DB_INFOS_FILE_MSG
           abort "Are you in your app directory ?"
         end
       end

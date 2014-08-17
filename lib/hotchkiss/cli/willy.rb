@@ -29,8 +29,12 @@ module Cli
     desc "console", "IRB console."
     def console
       require 'irb'
-      db = YAML::load(File.open("#{Dir.pwd}/config/db.yml"))
-      Sequel.connect(db[:url], db[:options])
+      begin
+        YAML::load(File.open(DB_INFO_FILE))
+      rescue Errno::ENOENT
+        abort(ERROR_DB_INFOS_FILE_MSG)
+      end
+      Sequel.connect(DB_INFOS[:url], DB_INFOS[:options])
       Dir["#{Dir.pwd}/code/app/models/*.rb"].each { |file| require file }
       ARGV.clear
       IRB.start
