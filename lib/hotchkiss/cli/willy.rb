@@ -51,7 +51,6 @@ module Cli
       rescue LoadError => e
         abort(e.message)
       end
-      load(ROUTE_FILE)
       http_methods = HK::Application.routes_by_method
       http_methods.each { |method, resources|
         puts "#{method.to_s}:"
