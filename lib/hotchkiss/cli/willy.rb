@@ -2,7 +2,8 @@ module Cli
 
   class Willy < Thor
 
-    desc "new NAME", "Create new hotchkiss application directories with skel files."
+    desc "new NAME",
+         "Create new hotchkiss application directories with skel files."
     def new(name)
       dir = Dir.pwd + '/' + name
       unless File.exists?(dir)
@@ -13,7 +14,8 @@ module Cli
       end
     end
 
-    desc "server [host - default 127.0.0.1] [port - default 3000]", "Run development server."
+    desc "server [host - default 127.0.0.1] [port - default 3000]",
+         "Run development server."
     def server(host = nil, port = nil)
       port ||= 3000
       host ||= "127.0.0.1"
@@ -35,9 +37,32 @@ module Cli
         abort(ERROR_DB_INFOS_FILE_MSG)
       end
       Sequel.connect(DB_INFOS[:url], DB_INFOS[:options])
-      Dir["#{Dir.pwd}/code/app/models/*.rb"].each { |file| require file }
+      Dir["#{Dir.pwd}/code/app/models/*.rb"].each { |file|
+        require file
+      }
       ARGV.clear
       IRB.start
+    end
+
+    desc "routes", "Show app routes"
+    def routes
+      begin
+        load(ROUTE_FILE)
+      rescue LoadError => e
+        abort(e.message)
+      end
+      load(ROUTE_FILE)
+      http_methods = HK::Application.routes_by_method
+      http_methods.each { |method, resources|
+        puts "#{method.to_s}:"
+        resources.each { |resource|
+          p = resource[:path]
+          c = "#{resource[:controller].capitalize}Controller"
+          a = resource[:action]
+          puts "#{p} -> #{c} -> #{a}"
+        }
+        puts
+      }
     end
 
     desc "generate SUBCOMMAND", "Generators for model and controller files."

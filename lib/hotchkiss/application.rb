@@ -13,6 +13,10 @@ module HK
       @@router = router if @@router.nil?
     end
 
+    def self.routes_by_method
+      @@router.get_routes_by_method
+    end
+
     def self.root=(root)
       @@root = root if @@root.nil?
     end
