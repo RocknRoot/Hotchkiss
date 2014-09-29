@@ -3,11 +3,14 @@ module HK
   class Controller
 
     def call(env)
+      resp = {}
       @env = env
       @request = Rack::Request.new(env)
       @response = Rack::Response.new()
       @request.update_param :url, env['hk.params']
-      resp = self.send(env['hk.action'])
+      resp[:body] = self.send(env['hk.action'])
+      resp[:status] = @response.status
+      resp
     end
 
   private

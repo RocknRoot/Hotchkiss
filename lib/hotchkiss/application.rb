@@ -45,12 +45,12 @@ module HK
           if Object.const_get("ApplicationController").instance_methods(false).include?(:on_exception)
             env['hk.controller'] = :ApplicationController
           else
-            env['hk.controller'] = :FastResponder
+            env['hk.controller'] = :EngineException
           end
           resp = Object.const_get(env['hk.controller']).new.call(env)
         end
-        response = Rack::Response.new()
-        response.write(resp)
+        response = Rack::Response.new(resp[:body],
+                                      resp[:status])
         response.finish
       end
     end
