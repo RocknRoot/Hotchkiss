@@ -33,6 +33,9 @@ module HK
       method = env['REQUEST_METHOD'].downcase.to_sym
       path = env['REQUEST_PATH'].eql?("/") ? "/" :
              env['REQUEST_PATH'].gsub(/\/$/, '')
+      if !@routes_by_method.has_key?(method)
+        raise Exception, "Unknown route for path: #{env['REQUEST_PATH']}"
+      end
       @routes_by_method[method].each do |route|
         if path.match(route[:regexp])
           return route, extract_params(route,
