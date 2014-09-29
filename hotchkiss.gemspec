@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.date        = Time.now.strftime("%Y-%m-%d")
   s.summary     = "Ruby web framework"
   s.description = "Ruby web framework"
-  s.authors     = ["Thibaut Deloffre"]
+  s.authors     = ["Thibaut Deloffre", "Valerian Cubero"]
   s.email       = 'tib@rocknroot.org'
   s.files       = `git ls-files lib/`.split
   s.executables = ["hk"]
